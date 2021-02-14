@@ -91,3 +91,23 @@ def test_upload(browser):
 
     # Should create a link
     browser.find_element_by_link_text("readme.txt")
+
+
+def test_code_highlight(browser):
+    browser.get(INDEX_URL)
+    assert_no_javascript_errors(browser)
+
+    # Type some source code
+    user_input = browser.find_element_by_id("userInput")
+    user_input.clear()
+    user_input.send_keys(
+        "```python\n"
+        "def hello_world():\n"
+        "    print('Hello')\n"
+        "```\n"
+    )
+    sleep(1)
+    assert_no_javascript_errors(browser)
+
+    # Should create highlighted elements
+    browser.find_element_by_css_selector(".hljs-title")

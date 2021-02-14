@@ -112,6 +112,10 @@ function retagContent() {
         window.MathJax.typeset();
     }
 
+    // Reapply syntax highlight
+    hljs.initHighlighting.called = false;
+    hljs.initHighlighting();
+
     // Re-render Mermaid diagrams
     mermaid.init();
 }
