@@ -83,6 +83,7 @@ $(function () {
             dataType: 'json'
         });
     }
+
     retagContent();
 });
 
@@ -105,9 +106,11 @@ function retagContent() {
     $("table").wrap("<div class='table-wrapper'></div>");
 
     // Re-render LaTeX equations
-    window.MathJax.texReset();
-    window.MathJax.typesetClear();
-    window.MathJax.typeset();
+    if (window.MathJax.typeset !== undefined) {
+        window.MathJax.texReset();
+        window.MathJax.typesetClear();
+        window.MathJax.typeset();
+    }
 
     // Re-render Mermaid diagrams
     mermaid.init()

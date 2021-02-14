@@ -14,6 +14,12 @@ def _launch():
     return browser
 
 
+def assert_no_javascript_errors(browser):
+    assert len(browser.find_elements_by_css_selector(".js-error")) == 0, (
+        "Javascript errors found. See browser console for more details."
+    )
+
+
 def test_index_should_redirect_to_edit():
     browser = _launch()
     browser.get(INDEX_URL)
@@ -24,6 +30,7 @@ def test_index_should_redirect_to_edit():
 def test_should_edit():
     browser = _launch()
     browser.get(INDEX_URL)
+    assert_no_javascript_errors(browser)
 
     # Type a new note
     user_input = browser.find_element_by_id("userInput")
@@ -37,6 +44,7 @@ def test_should_edit():
         "maximus turpis id egestas rhoncus. Morbi eget bibendum leo. "
     )
     sleep(1)
+    assert_no_javascript_errors(browser)
 
     # Should render the preview
     h1 = browser.find_element_by_css_selector("h1")
@@ -48,6 +56,7 @@ def test_should_edit():
 
     # Click view and verify content
     browser.find_element_by_link_text("View").click()
+    assert_no_javascript_errors(browser)
     assert "/view" in browser.current_url
     h1 = browser.find_element_by_css_selector("h1")
     assert h1.text == "Hello world"
@@ -56,6 +65,7 @@ def test_should_edit():
 
     # Click publish and verify content
     browser.find_element_by_link_text("Publish").click()
+    assert_no_javascript_errors(browser)
     h1 = browser.find_element_by_css_selector("h1")
     assert h1.text == "Hello world"
     assert "Hello world" in browser.title

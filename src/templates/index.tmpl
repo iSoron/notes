@@ -5,6 +5,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="referrer" content="no-referrer">
 
+        <script type="text/javascript">
+            window.addEventListener('error', function () {
+                html = document.getElementsByTagName("html")[0];
+                html.classList.add("js-error");
+            }, true);
+        </script>
+
         <link rel="stylesheet" href="/static/lib/dropzone.css">
         <link rel="stylesheet" type="text/css" href="/static/lib/github-markdown.css">
         <link rel="stylesheet" type="text/css" href="/static/lib/menus-min.css">
