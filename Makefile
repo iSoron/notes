@@ -1,4 +1,6 @@
 VERSION=0.1.0
+DEFAULT_ARGS := --allow-file-uploads
+
 LDFLAGS=-ldflags "-X main.version=${VERSION}"
 
 ROLLUP := node_modules/.bin/rollup
@@ -63,15 +65,16 @@ install-deps:
 	pip install -r src/python/requirements.txt
 
 .PHONY: run
-run:
-	cd build && ./notes
+run: all
+	cd build && ./notes $(DEFAULT_ARGS)
 
 .PHONY: test
 test: all
-	@cd build                  ;\
-	 ./notes --port=8040       &\
-	 NOTES_PID=$$!             ;\
-	 pytest ..                 ;\
-	 PYTEST_RESULT=$$?         ;\
-  	 kill $$NOTES_PID          ;\
+	@cd build                                     ;\
+	 ./notes $(DEFAULT_ARGS) --port=8040          &\
+	 NOTES_PID=$$!                                ;\
+	 cd ..                                        ;\
+	 pytest                                       ;\
+	 PYTEST_RESULT=$$?                            ;\
+  	 kill $$NOTES_PID                             ;\
   	 exit $$PYTEST_RESULT

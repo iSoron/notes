@@ -113,40 +113,6 @@ function retagContent() {
     }
 
     // Re-render Mermaid diagrams
-    mermaid.init()
-
+    mermaid.init();
 }
 
-// noinspection JSUnusedLocalSymbols
-function onUploadFinished(file) {
-    let userInput = $('#userInput');
-    this.removeFile(file);
-    var cursorPos = userInput.prop('selectionStart');
-    var cursorEnd = userInput.prop('selectionEnd');
-    var v = userInput.val();
-    var textBefore = v.substring(0, cursorPos);
-    var textAfter = v.substring(cursorPos, v.length);
-    var message = 'uploaded file';
-    if (cursorEnd > cursorPos) {
-        message = v.substring(cursorPos, cursorEnd);
-        textAfter = v.substring(cursorEnd, v.length);
-    }
-    var prefix = '';
-    if (file.type.startsWith("image")) {
-        prefix = '!';
-    }
-    var extraText = prefix + '[' + file.xhr.getResponseHeader("Location").split('filename=')[1] + '](' +
-        file.xhr.getResponseHeader("Location") +
-        ')';
-
-    userInput.val(
-        textBefore +
-        extraText +
-        textAfter
-    );
-
-    // Select the newly-inserted link
-    userInput.prop('selectionStart', cursorPos);
-    userInput.prop('selectionEnd', cursorPos + extraText.length);
-    userInput.trigger('keyup'); // trigger a save
-}

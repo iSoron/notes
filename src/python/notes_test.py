@@ -1,17 +1,29 @@
 from time import sleep
 
+import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
 INDEX_URL = "http://localhost:8040"
 
 
-def _launch():
+@pytest.fixture()
+def browser():
     options = Options()
     options.add_argument("--headless")
     options.add_argument("window-size=1920,1080")
     browser = webdriver.Chrome(options=options)
-    return browser
+    yield browser
+    browser.quit()
+
+
+def upload_file(browser, name, path):
+    content = open(path).read()
+    browser.execute_script("""
+    var dropzone_instance = Dropzone.forElement("#userInputForm")
+    var new_file = new File(['%s'], '%s', {type: 'application/octet-binary'})
+    dropzone_instance.addFile(new_file)
+    """ % (content, name))
 
 
 def assert_no_javascript_errors(browser):
@@ -20,15 +32,12 @@ def assert_no_javascript_errors(browser):
     )
 
 
-def test_index_should_redirect_to_edit():
-    browser = _launch()
+def test_index_should_redirect_to_edit(browser):
     browser.get(INDEX_URL)
     assert "/edit" in browser.current_url
-    browser.close()
 
 
-def test_should_edit():
-    browser = _launch()
+def test_should_edit(browser):
     browser.get(INDEX_URL)
     assert_no_javascript_errors(browser)
 
@@ -70,5 +79,15 @@ def test_should_edit():
     assert h1.text == "Hello world"
     assert "Hello world" in browser.title
 
-    # End session
-    browser.close()
+
+def test_upload(browser):
+    browser.get(INDEX_URL)
+    assert_no_javascript_errors(browser)
+
+    # Upload a file
+    upload_file(browser, "readme.txt", "src/python/assets/readme.txt")
+    sleep(1)
+    assert_no_javascript_errors(browser)
+
+    # Should create a link
+    browser.find_element_by_link_text("readme.txt")
