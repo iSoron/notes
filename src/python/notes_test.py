@@ -13,6 +13,8 @@ def browser():
     options.add_argument("--headless")
     options.add_argument("window-size=1920,1080")
     browser = webdriver.Chrome(options=options)
+    browser.get(INDEX_URL)
+    assert_no_javascript_errors(browser)
     yield browser
     browser.quit()
 
@@ -32,15 +34,7 @@ def assert_no_javascript_errors(browser):
     )
 
 
-def test_index_should_redirect_to_edit(browser):
-    browser.get(INDEX_URL)
-    assert "/edit" in browser.current_url
-
-
 def test_should_edit(browser):
-    browser.get(INDEX_URL)
-    assert_no_javascript_errors(browser)
-
     # Type a new note
     user_input = browser.find_element_by_id("userInput")
     user_input.clear()
@@ -81,9 +75,6 @@ def test_should_edit(browser):
 
 
 def test_upload(browser):
-    browser.get(INDEX_URL)
-    assert_no_javascript_errors(browser)
-
     # Upload a file
     upload_file(browser, "readme.txt", "src/python/assets/readme.txt")
     sleep(1)
@@ -94,9 +85,6 @@ def test_upload(browser):
 
 
 def test_code_highlight(browser):
-    browser.get(INDEX_URL)
-    assert_no_javascript_errors(browser)
-
     # Type some source code
     user_input = browser.find_element_by_id("userInput")
     user_input.clear()
@@ -111,3 +99,20 @@ def test_code_highlight(browser):
 
     # Should create highlighted elements
     browser.find_element_by_css_selector(".hljs-title")
+
+
+def test_mermaid(browser):
+    # Draw a diagram
+    user_input = browser.find_element_by_id("userInput")
+    user_input.clear()
+    user_input.send_keys(
+        '<div class="mermaid">\n'
+        'graph TD\n'
+        '    hello --> world\n'
+        '</div>\n'
+    )
+    sleep(1)
+    assert_no_javascript_errors(browser)
+
+    # Should create highlighted elements
+    browser.find_element_by_tag_name("svg")
