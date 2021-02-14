@@ -3,7 +3,7 @@ from time import sleep
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
-INDEX_URL = "http://localhost:8050"
+INDEX_URL = "http://localhost:8040"
 
 
 def _launch():

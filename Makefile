@@ -66,6 +66,12 @@ install-deps:
 run:
 	cd build && ./notes
 
-.PHONY: large-tests
-large-tests:
-	pytest
+.PHONY: test
+test: all
+	@cd build                  ;\
+	 ./notes --port=8040       &\
+	 NOTES_PID=$$!             ;\
+	 pytest ..                 ;\
+	 PYTEST_RESULT=$$?         ;\
+  	 kill $$NOTES_PID          ;\
+  	 exit $$PYTEST_RESULT
