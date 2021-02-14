@@ -1,6 +1,6 @@
 "use strict";
 
-$(window).load(function () {
+$(function () {
     let userInput = $('#userInput');
     let saveEditButton = $('#saveEditButton');
     // Returns a function, that, as long as it continues to be invoked, will not
