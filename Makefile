@@ -22,6 +22,7 @@ all: $(OUTPUT_FILES)
 	@rsync -a node_modules/mermaid/dist/mermaid.min.js build/static/lib/
 	@rsync -a node_modules/jquery/dist/jquery.min.js build/static/lib/
 	@rsync -a node_modules/dropzone/dist/min/dropzone* build/static/lib/
+	@rsync -a node_modules/github-markdown-css/*css build/static/lib/
 
 $(GO_OUT): $(GO_IN)
 	cd src/go && go build ${LDFLAGS} -o ../../build/notes
@@ -67,7 +68,7 @@ install-deps:
 
 .PHONY: run
 run: all
-	cd build && ./notes $(DEFAULT_ARGS)
+	cd build && ./notes $(DEFAULT_ARGS) --data ../data
 
 .PHONY: test
 test: all
