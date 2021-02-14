@@ -1,0 +1,221 @@
+@font-face {
+    font-family: "Roboto";
+    font-weight: normal;
+    font-style: normal;
+    src: url("/static/lib/roboto-all-400-normal.woff") format('woff2');
+}
+
+@font-face {
+    font-family: "Roboto";
+    font-weight: normal;
+    font-style: italic;
+    src: url("/static/lib/roboto-all-400-italic.woff") format('woff2');
+}
+
+@font-face {
+    font-family: "Roboto";
+    font-weight: bold;
+    font-style: normal;
+    src: url("/static/lib/roboto-all-700-normal.woff") format('woff2');
+}
+
+@font-face {
+    font-family: "Roboto";
+    font-weight: bold;
+    font-style: italic;
+    src: url("/static/lib/roboto-all-700-italic.woff") format('woff2');
+}
+
+@font-face {
+    font-family: "Roboto";
+    font-weight: 500;
+    font-style: normal;
+    src: url("/static/lib/roboto-all-500-normal.woff") format('woff2');
+}
+
+@font-face {
+    font-family: "Roboto";
+    font-weight: 500;
+    font-style: italic;
+    src: url("/static/lib/roboto-all-500-italic.woff") format('woff2');
+}
+
+
+.markdown-body a {
+    color: #06d;
+}
+
+.markdown-body {
+    font-size: 13pt;
+    font-family: 'Roboto', sans-serif;
+    line-height: 150%;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3 {
+    font-weight: 500;
+}
+
+.markdown-body strong {
+    font-weight: bold;
+}
+
+.markdown-body blockquote {
+    color: #666;
+}
+
+body.ListPage span {
+    cursor: pointer;
+}
+
+body {
+    background: #fff;
+}
+
+.success {
+    color: #5cb85c;
+    font-weight: bold;
+}
+
+.failure {
+    color: #d9534f;
+    font-weight: bold;
+}
+
+.deleting {
+    opacity: 0.5;
+}
+
+.ChildPageNames ul {
+    margin: 0.3em 0 0 1.6em;
+    padding: 0;
+    display: grid;
+    grid-gap: 0.5rem;
+}
+
+.ChildPageNames li {
+    margin: 0;
+}
+
+.ChildPageNames a {
+    color: #0645ad;
+    background: none;
+}
+
+#menu {
+    background-color: #f6f6f6;
+    text-align: right;
+    border-bottom: 1px solid #ccc;
+}
+
+#menu ul {
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+    max-width: 55em;
+}
+
+#menu li {
+    display: inline-block;
+    color: #666;
+    font-size: 10pt;
+}
+
+
+#menu a {
+    padding: 0.5em 1.5em;
+    text-decoration: none;
+    color: inherit;
+}
+
+#menu a:hover {
+    color: #06d;
+}
+
+#menu .selected {
+    background-color: #fff;
+    padding: 0.5em 1.5em;
+    border: 1px solid #ccc;
+    border-bottom: 1px solid white;
+    border-top: 0px solid white;
+    margin-bottom: -1px;
+}
+
+ul.checkmark {
+    list-style: none;
+}
+
+li.checkmark input {
+    margin: 0 .2em .25em -1.6em;
+    vertical-align: middle;
+}
+
+li.checkmark.done {
+    color: #c0c0c0;
+}
+
+.table-wrapper {
+    text-align: center;
+    width: 100%;
+    margin: 1.5em;
+}
+
+.table-wrapper table {
+    display: inline;
+    text-align: left;
+}
+
+.history {
+    font-family: monospace;
+    font-size: 0.9em;
+}
+
+#pad {
+    position: absolute;
+    top: 5%;
+    width: 100%;
+    height: 95%;
+}
+
+#pad form, #pad textarea {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    border: 0;
+    outline: none;
+    resize: none;
+    padding: 0 2em;
+    font-size: 1.0em;
+    font-family: "Lucida Console", Monaco, monospace;
+}
+
+.EditPage #rendered {
+    visibility: hidden;
+}
+
+.ViewPage #rendered, .HistoryPage #rendered, .ReadPage #rendered {
+    max-width: 55em;
+    margin: 0 auto;
+    padding: 0 2%;
+}
+
+@media (min-width: 75em) {
+    #pad {
+        width: 50%;
+    }
+
+    .EditPage #rendered {
+        visibility: visible;
+        position: absolute;
+        top: 5%;
+        left: 50%;
+        width: 50%;
+        height: 95%;
+        overflow: hidden;
+        overflow-y: scroll;
+        padding: 0 2em;
+    }
+}

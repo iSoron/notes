@@ -1,0 +1,29 @@
+name: Test
+on: [ push, pull_request ]
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source code
+        uses: actions/checkout@master
+
+      - name: Setup go
+        uses: actions/setup-go@v2
+        with:
+          go-version: "1.13"
+
+      - name: Setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+          architecture: x64
+
+      - name: Install project dependencies
+        run: make install-deps
+
+      - name: Build project
+        run: make
+
+      - name: Run tests
+        run: make run & make large-tests

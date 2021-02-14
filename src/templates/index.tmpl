@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="referrer" content="no-referrer">
+
+        <link rel="stylesheet" href="/static/lib/dropzone.css">
+        <link rel="stylesheet" type="text/css" href="/static/lib/github-markdown.css">
+        <link rel="stylesheet" type="text/css" href="/static/lib/menus-min.css">
+        <link rel="stylesheet" type="text/css" href="/static/lib/base-min.css">
+        <link rel="stylesheet" type="text/css" href="/static/lib/highlight.css">
+        <link rel="stylesheet" type="text/css" href="/static/notes.css">
+        <script type="text/javascript" src="/static/lib/jquery.min.js"></script>
+        <script src="/static/lib/highlight.min.js"></script>
+        <script type="text/javascript" src="/static/lib/highlight.pack.js"></script>
+        <script src="/static/lib/dropzone.js"></script>
+        <script id="MathJax-script" async src="/static/lib/mathjax/es5/tex-mml-chtml.js"></script>
+        <script src="/static/lib/mermaid.min.js"></script>
+
+        <title>{{ .Name }}</title>
+
+        <script type='text/javascript'>
+            hljs.initHighlightingOnLoad();
+            window.notes = {
+                debounceMS: 500,
+                lastFetch: {{ .CurrentUnixTime }},
+                pageName: "{{ .Name }}",
+            }
+            window.MathJax = {
+                tex: {
+                    tags: 'ams'
+                }
+            };
+        </script>
+        <script type="text/javascript" src="/static/notes.bundle.js"></script>
+    </head>
+    <body class="
+        {{ if .EditPage }} EditPage {{ end }}
+        {{ if .ViewPage }} ViewPage {{ end }}
+        {{ if .HistoryPage }} HistoryPage {{ end }}
+        {{ if .ReadPage }} ReadPage {{ end }}
+    ">
+
+        {{ if .ReadPage  }}
+            <!-- No menu for read page -->
+        {{ else }}
+            <div id="menu">
+                <ul>
+                    <li><a href="/">New</a></li>
+                    {{ if .ViewPage }}
+                    <li class="selected">View</li>
+                    {{ else }}
+                    <li><a href="/{{ .Name }}/view">View</a></li>
+                    {{ end }}
+                    {{ if .EditPage }}
+                    <li class="selected"><span id="saveEditButton">Edit</span></li>
+                    {{ else }}
+                    <li><a href="/{{ .Name }}/edit">Edit</a></li>
+                    {{ end }}
+                    {{ if .HistoryPage }}
+                    <li class="selected">History</li>
+                    {{ else }}
+                    <li><a href="/{{ .Name }}/history">History</a></li>
+                    {{ end }}
+                    <li><a href="/p/{{ .ReadOnlyName }}">Publish</a></li>
+                </ul>
+            </div>
+        {{ end }}
+
+
+        <article class="markdown-body">
+            <div id="wrap">
+                {{ if .EditPage }}
+                    <div id="pad">
+                        <script>
+                            Dropzone.options.userInputForm = {
+                                clickable: false,
+                                maxFilesize: {{ if .MaxUploadSizeInMB }} {{.MaxUploadSizeInMB}} {{ else }} 10 {{end }}, // MB
+                                init: function initDropzone() {
+                                    this.on("complete", onUploadFinished);
+                                }
+                            };
+                        </script>
+                        <form
+                            id="userInputForm"
+                            action="/uploads"
+                            {{ if .AllowFileUploads }}
+                            class="dropzone"
+                            {{ end }}
+                        >
+                            <textarea
+                                autofocus
+                                placeholder="Use markdown to write your note!"
+                                id="userInput"
+                            >{{ .RawContent }}</textarea>
+                        </form>
+                    </div>
+                {{ end }}
+
+                <div id="rendered">
+                    {{ .RenderedContent }}
+                    {{ if .HistoryPage }}
+                        <h1>History</h1>
+                        <ul class="history">
+                            {{range $i, $e := .VersionTimestamps}}
+                                <li>
+                                    <a href="/{{ $.Name }}/view?version={{index $.VersionTimestamps $i}}">{{index $.VersionFormattedNames $i}}</a>
+                                    (<span>{{index $.VersionChangeSums $i}}</span>)
+                                </li>
+                            {{end}}
+                        </ul>
+                    {{ end }}
+            </div>
+        </article>
+    </body>
+</html>
