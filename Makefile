@@ -14,11 +14,11 @@ GO_OUT := build/notes
 OUTPUT_FILES := $(GO_OUT) $(JS_OUT) $(TEMPLATES_OUT) $(CSS_OUT)
 
 all: $(OUTPUT_FILES)
-	@rsync -avP lib/ build/static/lib/
-	@rsync -avP node_modules/\@fontsource/roboto/files/roboto-all* build/static/lib/
-	@rsync -avP node_modules/mathjax/es5 build/static/lib/mathjax
-	@rsync -avP node_modules/mermaid/dist/mermaid.min.js build/static/lib/
-	@rsync -avP node_modules/jquery/dist/jquery.min.js build/static/lib/
+	@rsync -a lib/ build/static/lib/
+	@rsync -a node_modules/\@fontsource/roboto/files/roboto-all* build/static/lib/
+	@rsync -a node_modules/mathjax/es5 build/static/lib/mathjax
+	@rsync -a node_modules/mermaid/dist/mermaid.min.js build/static/lib/
+	@rsync -a node_modules/jquery/dist/jquery.min.js build/static/lib/
 
 $(GO_OUT): $(GO_IN)
 	cd src/go && go build ${LDFLAGS} -o ../../build/notes
