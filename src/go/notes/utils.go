@@ -27,7 +27,7 @@ func init() {
 	bmPolicy.AllowElements("style")
 	bmPolicy.AllowAttrs("checked", "disabled", "type").OnElements("input")
 	bmPolicy.AllowAttrs("width", "height", "align").OnElements("img")
-	bmPolicy.AllowAttrs("style", "class", "align").OnElements("span", "p", "div", "a")
+	bmPolicy.AllowAttrs("style", "class", "align").OnElements("span", "p", "div", "a", "table", "tr", "td", "th")
 	md = goldmark.New(
 		goldmark.WithExtensions(extension.GFM),
 		goldmark.WithExtensions(mathjax.MathJax),
