@@ -64,6 +64,9 @@ docker-run:
 .PHONY: install-deps
 install-deps:
 	npm install
+
+.PHONY: install-test-deps
+install-test-deps:
 	pip install -r src/python/requirements.txt
 
 .PHONY: run
